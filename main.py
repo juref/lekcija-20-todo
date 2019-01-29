@@ -50,8 +50,9 @@ class AddHandler(BaseHandler):
     def get(self):
         list = Todo.query(Todo.deleted == False).fetch()
         deleted = Todo.query(Todo.deleted == True).fetch()
+        task = ""
 
-        params = {"list": list, "deleted": deleted}
+        params = {"list": list, "deleted": deleted, "task": task}
 
         return self.render_template("add.html", params=params)
 
