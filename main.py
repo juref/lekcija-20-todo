@@ -17,6 +17,16 @@ template_dir = os.path.join(os.path.dirname(__file__), "templates")
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=False)
 
 
+def fetchReload():
+    time.sleep(1)
+    list = Todo.query(Todo.deleted == False).fetch()
+    deleted = Todo.query(Todo.deleted == True).fetch()
+
+    params = {"list": list, "deleted": deleted}
+
+    return params
+
+
 class BaseHandler(webapp2.RequestHandler):
 
     def write(self, *a, **kw):
@@ -68,10 +78,8 @@ class AddHandler(BaseHandler):
         new_task = Todo(task=task, status=status)
         new_task.put()
         time.sleep(1)
-        list = Todo.query(Todo.deleted == False).fetch()
-        deleted = Todo.query(Todo.deleted == True).fetch()
 
-        params = {"list": list, "deleted": deleted}
+        params = fetchReload() ## from function
 
         return self.render_template("index.html", params=params)
 
@@ -79,10 +87,6 @@ class AddHandler(BaseHandler):
 class EditHandler(BaseHandler):
     def get(self, task_id):
         edit = Todo.get_by_id(int(task_id))
-        # if edit.status == "True":
-        #     status = True
-        # else:
-        #     status = False
 
         params = {"task": edit}
 
@@ -103,11 +107,8 @@ class EditHandler(BaseHandler):
         edit.status = status
 
         edit.put()
-        time.sleep(1)
-        list = Todo.query(Todo.deleted == False).fetch()
-        deleted = Todo.query(Todo.deleted == True).fetch()
 
-        params = {"list": list, "deleted": deleted}
+        params = fetchReload() ## from function
 
         return self.render_template("index.html", params=params)
 
@@ -125,11 +126,8 @@ class DeleteHandler(BaseHandler):
         edit.deleted = True
 
         edit.put()
-        time.sleep(1)
-        list = Todo.query(Todo.deleted == False).fetch()
-        deleted = Todo.query(Todo.deleted == True).fetch()
 
-        params = {"list": list, "deleted": deleted}
+        params=fetchReload() ## from function
 
         return self.render_template("index.html", params=params)
 
