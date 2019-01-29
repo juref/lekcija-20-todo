@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Seznam opravil{% endblock title %}
+
+{% block specifika %}
+
+    <div class="container">
+        <div class="container">
+            <div class="row">
+            
+                {% if notice %}
+            
+                <div class="notice {{ classConfirm }}">{{ notice }}</div>
+            
+                {% endif %}
+            
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row" id="guest-list">
+                        <h2>Seznam opravil:</h2>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">opravilo</th>
+                                    <th scope="col">status</th>
+                                    <th scope="col">uredi</th>
+                                    <th scope="col">izbriši</th>
+                                </tr>
+                            </thead>
+                            {% for line in list %}
+                            <tbody>
+                                <tr class="{{ line.status }}">
+                                    <td>{{ line.task }}</td>
+                                    <td><img class="icon" src="/assets/img/{{ line.status }}.png" /></td>
+                                    <td><a href="/edit/{{ line.key.id() }}">Uredi</a></td>
+                                    <td><a href="/delete/{{ line.key.id() }}">Izbriši</a></td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <p>
+                        <a class="btn btn-dark" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                            aria-controls="collapseExample">
+                            Pokaži izbrisana opravila
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                        <div class="">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">opravilo</th>
+                                        <th scope="col">status</th>
+                                        <th scope="col">uredi</th>
+                                        <th scope="col">izbriši</th>
+                                    </tr>
+                                </thead>
+                                {% for line in deleted %}
+                                <tbody>
+                                    <tr class="{{ line.status }}">
+                                        <td>{{ line.task }}</td>
+                                        <td><img class="icon" src="/assets/img/{{ line.status }}.png" /></td>
+                                        <td><a href="/edit/{{ line.key.id() }}">Uredi</a></td>
+                                        <td><a href="/delete/{{ line.key.id() }}">Izbriši</a></td>
+                                    </tr>
+                                </tbody>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock specifika %}

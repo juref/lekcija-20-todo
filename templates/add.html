@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Filton{% endblock title %}
+
+{% block specifika %}
+
+<div class="container">
+    <div class="container">
+        <div class="row">
+
+            {% if notice %}
+
+            <div class="notice {{ classConfirm }}">{{ notice }}</div>
+
+            {% endif %}
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="row mb-3 center">
+                    <p>
+                        Vpiši svoje popravilo!
+                    </p>
+                </div>
+
+                <form method="post">
+                    <div class="input-group mb-3">
+                        <div class="note">
+                            Check checkbox if done
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {% if task.status == True %}
+                                    <input type="checkbox" id="status" name="status" aria-label="status" value="True" checked>
+                                    {% else %}
+                                    <input type="checkbox" id="status" name="status" aria-label="status" value="True">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if task %}
+                            <input type="text" class="form-control" placeholder="Task" id="task" name="task" aria-label="task" value="{{ task.task }}">
+                            {% else %}
+                            <input type="text" class="form-control" placeholder="Task" id="task" name="task" aria-label="task">
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-dark" type="submit">Vnesi</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <br /><a class="btn btn-dark" href="/">Prekliči!</a>
+        </div> 
+    </div>
+</div>
+
+{% endblock specifika %}
